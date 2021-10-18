@@ -2,7 +2,7 @@ import { Type } from "class-transformer";
 import { IsArray, IsDate, IsDateString, IsInt, IsString } from "class-validator";
 
 export class CreateAuthorDto {
-    @IsString()
+    @IsString() 
     name: string;
 
     @IsString()
