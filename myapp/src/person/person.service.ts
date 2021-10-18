@@ -1,19 +1,28 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreatePersonDto } from './dto/create-person.dto';
 import { UpdatePersonDto } from './dto/update-person.dto';
+import { Person } from './entities/person.entity';
 
 @Injectable()
 export class PersonService {
-  create(createPersonDto: CreatePersonDto) {
-    return 'This action adds a new person';
-  }
-
-  findAll() {
-    return `This action returns all person`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} person`;
+  constructor(
+    @InjectRepository(Person)
+    private readonly personRepository : Repository<Person>)
+  {}
+  
+  async create(createPersonDto: CreatePersonDto) { 
+      
+        const entidad = this.personRepository.create(createPersonDto as any);
+               
+        const data = await this.personRepository.save(entidad);
+    
+        return {
+          code : "OK",
+          message : "Consulta realizada con éxito",
+          data
+        };
   }
 
   update(id: number, updatePersonDto: UpdatePersonDto) {
@@ -24,3 +33,7 @@ export class PersonService {
     return `This action removes a #${id} person`;
   }
 }
+    function person(person: any) {
+      throw new Error('Function not implemented.');
+    }
+
